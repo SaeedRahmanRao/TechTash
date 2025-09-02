@@ -28,6 +28,11 @@ import {
   Search,
   ShoppingCart,
   Settings,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Bot,
+  Workflow,
 } from "lucide-react"
 import { useState, useEffect } from "react"
 
@@ -162,7 +167,42 @@ function FloatingParticles() {
 }
 
 export default function TechTashWebsite() {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState(""); // '', 'sending', 'success', 'error'
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      setStatus("error");
+    }
+  };
 
   useEffect(() => {
     setIsLoaded(true)
@@ -235,6 +275,16 @@ export default function TechTashWebsite() {
       icon: Zap,
       title: "Performance Optimization",
       description: "Speed optimization and performance tuning for maximum efficiency and user satisfaction.",
+    },
+    {
+      icon: Bot,
+      title: "AI Agents",
+      description: "Custom AI agents to automate tasks, improve customer service, and drive business efficiency.",
+    },
+    {
+      icon: Workflow,
+      title: "AI Automation",
+      description: "Integration with n8n, Make, Zapier, and more to automate your business workflows.",
     },
   ]
 
@@ -617,17 +667,17 @@ export default function TechTashWebsite() {
               {
                 country: "Canada",
                 address: "871 Bairdmore Blvd\nR3T 5H6\nWinnipeg, Manitoba CA",
-                icon: "🇨🇦"
+                flag: "/canada.png"
               },
               {
                 country: "United Arab Emirates",
                 address: "1. China Cluster, International City\n   Dubai UAE\n2. Ras Al Khor Ind. 2\n   Dubai UAE",
-                icon: "🇦🇪"
+                flag: "/UAE.png"
               },
               {
                 country: "Pakistan",
                 address: "2nd Floor, Legis Accord Plaza\nMain Canal Road, Jallo\nLahore",
-                icon: "🇵🇰"
+                flag: "/pak.png"
               }
             ].map((office, index) => (
               <motion.div
@@ -638,8 +688,10 @@ export default function TechTashWebsite() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
               >
-                <Card className="bg-card border border-black-700 p-3 h-full group-hover:glow-purple transition-all duration-300">
-                  <div className="text-4xl mb-4">{office.icon}</div>
+                <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 overflow-hidden">
+                  <div className="relative flex items-center justify-center w-10 h-8 mb-6 mx-auto">
+                    <Image src={office.flag} alt={`${office.country} flag`} layout="fill" objectFit="cover" />
+                  </div>
                   <h3 className="text-xl font-semibold mb-4 text-primary">{office.country}</h3>
                   <p className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed">
                     {office.address}
@@ -774,44 +826,50 @@ export default function TechTashWebsite() {
             >
               <Card className="glass-card p-8 border-muted/50 bg-transparent">
                 <h3 className="text-2xl font-semibold mb-6">Send us a message</h3>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">Name</label>
                       <input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 glass rounded-lg border border-muted/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="Your name"
+                        required
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">Email</label>
                       <input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 glass rounded-lg border border-muted/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                         placeholder="your@email.com"
+                        required
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Subject</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 glass rounded-lg border border-muted/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                      placeholder="Project inquiry"
-                    />
-                  </div>
-                  <div>
                     <label className="block text-sm font-medium mb-2">Message</label>
                     <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
                       rows={4}
                       className="w-full px-4 py-3 glass rounded-lg border border-muted/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none"
                       placeholder="Tell us about your project..."
+                      required
                     />
                   </div>
-                  <Button className="w-full glow-purple">
-                    Send Message <ArrowRight className="ml-2 h-5 w-5" />
+                  <Button type="submit" className="w-full glow-purple" disabled={status === 'sending'}>
+                    {status === 'sending' ? 'Sending...' : 'Send Message'} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
+                  {status === 'success' && <p className="text-green-500 mt-4">Message sent successfully!</p>}
+                  {status === 'error' && <p className="text-red-500 mt-4">Failed to send message. Please try again.</p>}
                 </form>
               </Card>
             </motion.div>
@@ -955,23 +1013,31 @@ export default function TechTashWebsite() {
             <div>
               <h4 className="font-semibold mb-4">Connect</h4>
               <div className="flex space-x-4">
-                {["Twitter", "LinkedIn", "GitHub"].map((social) => (
-                  <motion.a
-                    key={social}
-                    href="#"
-                    whileHover={{ scale: 1.1 }}
-                    className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300"
-                  >
-                    <span className="text-xs">{social[0]}</span>
-                  </motion.a>
-                ))}
+                <motion.a href="https://www.facebook.com/profile.php?id=61580098733066" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
+                  <Facebook className="h-6 w-6" />
+                </motion.a>
+                <motion.a href="https://www.instagram.com/techtash.ca?igsh=MTcxa3E5Z3c0eXpjZA==&utm_source=ig_contact_invite" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
+                  <Instagram className="h-6 w-6" />
+                </motion.a>
+                <motion.a href="#" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
+                  {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tiktok"><path d="M12 12a4 4 0 1 0 4 4V8a8 8 0 1 1-8 8"/></svg> */}
+                  <Image
+    src="/tiktok.png"
+    alt="TikTok"
+    width={24}
+    height={24}
+    className="object-contain"
+  />
+                </motion.a>
+                <motion.a href="#" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
+                  <Linkedin className="h-6 w-6" />
+                </motion.a>
               </div>
             </div>
           </div>
-
-          <div className="border-t border-muted/50 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 TechTash. All rights reserved. Crafted with precision and passion.</p>
-          </div>
+          <p className="text-muted-foreground text-sm">
+            &copy; {new Date().getFullYear()} TechTash. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
