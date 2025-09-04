@@ -287,6 +287,11 @@ export default function TechTashWebsite() {
       description: "Complete online stores with payment gateways, inventory management, and customer analytics.",
     },
     {
+      icon: Settings,
+      title: "ERP Solutions",
+      description: "End-to-end ERP implementation, customization, and integration for streamlined operations.",
+    },
+    {
       icon: Database,
       title: "Database Management",
       description: "Robust database design, optimization, and management for high-performance applications.",
@@ -1000,7 +1005,7 @@ export default function TechTashWebsite() {
                       icon: Mail,
                       label: "Email",
                       items: [
-                        { text: "contact@techtash.ca", href: "mailto:contact@techtash.ca" },
+                        { text: "info@techtash.ca", href: "mailto:contact@techtash.ca" },
                       ],
                     },
                     {
