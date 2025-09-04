@@ -33,6 +33,9 @@ import {
   Linkedin,
   Bot,
   Workflow,
+  Info,
+  ChevronDown,
+  X,
 } from "lucide-react"
 import { useState, useEffect } from "react"
 
@@ -174,6 +177,7 @@ export default function TechTashWebsite() {
     message: "",
   });
   const [status, setStatus] = useState(""); // '', 'sending', 'success', 'error'
+  const [showPremiumDetails, setShowPremiumDetails] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -216,6 +220,37 @@ export default function TechTashWebsite() {
   }
 
   const services = [
+    {
+      icon: Award,
+      title: "Digital Branding",
+      description: "Full-suite digital branding package tailored for your business.",
+      features: [
+        "Domain purchase & setup",
+        "Web hosting",
+        "Business website",
+        "Logo design",
+        "Business card design",
+        "Letterhead design",
+        "Social media management",
+        "Google Business registration",
+        "Google Map setup",
+        "Meta Suite registration",
+        "SSL certificate setup",
+        "Business email setup",
+        "SEO optimization",
+      ],
+      isPremium: true,
+    },
+    {
+      icon: Bot,
+      title: "AI Agents",
+      description: "Custom AI agents to automate tasks, improve customer service, and drive business efficiency.",
+    },
+    {
+      icon: Workflow,
+      title: "AI Automation",
+      description: "Integration with n8n, Make, Zapier, and more to automate your business workflows.",
+    },
     {
       icon: Code,
       title: "Web Development",
@@ -275,16 +310,6 @@ export default function TechTashWebsite() {
       icon: Zap,
       title: "Performance Optimization",
       description: "Speed optimization and performance tuning for maximum efficiency and user satisfaction.",
-    },
-    {
-      icon: Bot,
-      title: "AI Agents",
-      description: "Custom AI agents to automate tasks, improve customer service, and drive business efficiency.",
-    },
-    {
-      icon: Workflow,
-      title: "AI Automation",
-      description: "Integration with n8n, Make, Zapier, and more to automate your business workflows.",
     },
   ]
 
@@ -519,18 +544,94 @@ export default function TechTashWebsite() {
                 whileHover={{ scale: 1.05, y: -10 }}
                 className="group"
               >
-                <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300">
+                <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 relative">
+                  {service.isPremium && (
+                    <Badge variant="destructive" className="absolute top-4 right-4">Premium</Badge>
+                  )}
                   <div className="mb-4">
                     <service.icon className="h-12 w-12 text-primary group-hover:text-secondary transition-colors" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
                   <p className="text-muted-foreground text-sm">{service.description}</p>
+
+                  {service.isPremium && (
+                    <>
+                      <div className="mt-4 flex items-center justify-between gap-3">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="glass bg-transparent"
+                          onClick={() => setShowPremiumDetails(true)}
+                        >
+                          See details
+                        
+                        </Button>
+                        <Button size="sm" className="glow-purple" onClick={() => scrollToSection("contact")}>
+                          Get Quote <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </div>
+                      {/* Details now open in a modal */}
+                    </>
+                  )}
                 </Card>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Premium Details Modal */}
+      {showPremiumDetails && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center">
+          {/* Backdrop */}
+          <motion.div
+            className="absolute inset-0 bg-black/50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => setShowPremiumDetails(false)}
+          />
+          {/* Modal Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="relative z-[61] max-w-xl w-[90%]"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Premium Package Details"
+          >
+            <Card className="bg-card border border-black-700 p-6">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-2xl font-semibold">Digital Branding</h3>
+                  <p className="text-sm text-muted-foreground">What’s included in the premium package</p>
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setShowPremiumDetails(false)} aria-label="Close">
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+              <div className="rounded-lg border border-muted/40 p-4 bg-background/40">
+                <div className="flex items-center gap-2 mb-3">
+                  <Info className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium">What’s included</span>
+                </div>
+                <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
+                  {(services.find((s: any) => s.isPremium)?.features || []).map((item: string, i: number) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-6 flex justify-end gap-3">
+                <Button variant="outline" onClick={() => setShowPremiumDetails(false)}>Close</Button>
+                <Button className="glow-purple" onClick={() => { setShowPremiumDetails(false); scrollToSection('contact'); }}>
+                  Get Quote <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </Card>
+          </motion.div>
+        </div>
+      )}
 
       {/* Portfolio Section */}
       <section id="portfolio" className="py-20 relative">
@@ -690,7 +791,7 @@ export default function TechTashWebsite() {
               >
                 <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 overflow-hidden">
                   <div className="relative flex items-center justify-center w-10 h-8 mb-6 mx-auto">
-                    <Image src={office.flag} alt={`${office.country} flag`} layout="fill" objectFit="cover" />
+                    <Image src={office.flag} alt={`${office.country} flag`} layout="fill" objectFit="cover" className="mb-4 rounded-md" />
                   </div>
                   <h3 className="text-xl font-semibold mb-4 text-primary">{office.country}</h3>
                   <p className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed">
@@ -885,10 +986,35 @@ export default function TechTashWebsite() {
                 <h3 className="text-2xl font-semibold mb-6">Get in touch</h3>
                 <div className="space-y-6">
                   {[
-                    { icon: Mail, label: "Email", value: "contact@techtash.ca" },
-                    { icon: Phone, label: "Canada", value: "+1 204 952 0477 / +1 431 458 0477" },
-                    { icon: Phone, label: "UAE", value: "+971 52 342 1122" },
-                    { icon: Phone, label: "Pakistan", value: "+92 3044936723" },
+                    {
+                      icon: Mail,
+                      label: "Email",
+                      items: [
+                        { text: "contact@techtash.ca", href: "mailto:contact@techtash.ca" },
+                      ],
+                    },
+                    {
+                      icon: Phone,
+                      label: "Canada",
+                      items: [
+                        { text: "+1 204 952 0477", href: "tel:+12049520477" },
+                        { text: "+1 431 458 0477", href: "tel:+14314580477" },
+                      ],
+                    },
+                    {
+                      icon: Phone,
+                      label: "UAE",
+                      items: [
+                        { text: "+971 52 342 1122", href: "tel:+971523421122" },
+                      ],
+                    },
+                    {
+                      icon: Phone,
+                      label: "Pakistan",
+                      items: [
+                        { text: "+92 304 493 6723", href: "tel:+923044936723" },
+                      ],
+                    },
                   ].map((contact, index) => (
                     <motion.div
                       key={contact.label}
@@ -903,7 +1029,18 @@ export default function TechTashWebsite() {
                       </div>
                       <div>
                         <div className="font-medium">{contact.label}</div>
-                        <div className="text-muted-foreground">{contact.value}</div>
+                        <div className="text-muted-foreground flex flex-col">
+                          {contact.items.map((item) => (
+                            <a
+                              key={item.href}
+                              href={item.href}
+                              className="group inline-flex items-center gap-1 hover:text-primary transition-colors"
+                            >
+                              <span>{item.text}</span>
+                              <ArrowRight className="h-4 w-4 opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0" />
+                            </a>
+                          ))}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
@@ -961,52 +1098,20 @@ export default function TechTashWebsite() {
             <div>
               <h4 className="font-semibold mb-4">Services</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Web Development
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Mobile Apps
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Cloud Solutions
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    AI Integration
-                  </a>
-                </li>
+                <li><button onClick={() => scrollToSection("services")} className="hover:text-primary transition-colors">Web Development</button></li>
+                <li><button onClick={() => scrollToSection("services")} className="hover:text-primary transition-colors">Mobile Apps</button></li>
+                <li><button onClick={() => scrollToSection("services")} className="hover:text-primary transition-colors">Cloud Solutions</button></li>
+                <li><button onClick={() => scrollToSection("services")} className="hover:text-primary transition-colors">AI Integration</button></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Portfolio
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Contact
-                  </a>
-                </li>
+                <li><button onClick={() => scrollToSection("about")} className="hover:text-primary transition-colors">About Us</button></li>
+                <li><button onClick={() => scrollToSection("portfolio")} className="hover:text-primary transition-colors">Portfolio</button></li>
+                <li><button onClick={() => scrollToSection("contact")} className="hover:text-primary transition-colors">Careers</button></li>
+                <li><button onClick={() => scrollToSection("contact")} className="hover:text-primary transition-colors">Contact</button></li>
               </ul>
             </div>
 
@@ -1019,17 +1124,16 @@ export default function TechTashWebsite() {
                 <motion.a href="https://www.instagram.com/techtash.ca?igsh=MTcxa3E5Z3c0eXpjZA==&utm_source=ig_contact_invite" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
                   <Instagram className="h-6 w-6" />
                 </motion.a>
-                <motion.a href="#" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
-                  {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-tiktok"><path d="M12 12a4 4 0 1 0 4 4V8a8 8 0 1 1-8 8"/></svg> */}
+                <motion.a href="https://www.tiktok.com/@techtash.ca" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
                   <Image
-    src="/tiktok.png"
-    alt="TikTok"
-    width={24}
-    height={24}
-    className="object-contain"
-  />
+                    src="/tiktok.png"
+                    alt="TikTok"
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
                 </motion.a>
-                <motion.a href="#" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
+                <motion.a href="https://www.linkedin.com/company/techtash/" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
                   <Linkedin className="h-6 w-6" />
                 </motion.a>
               </div>
