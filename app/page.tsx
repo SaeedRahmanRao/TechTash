@@ -178,6 +178,7 @@ export default function TechTashWebsite() {
   });
   const [status, setStatus] = useState(""); // '', 'sending', 'success', 'error'
   const [showPremiumDetails, setShowPremiumDetails] = useState(false);
+  const web3formsKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "YOUR_ACCESS_KEY_HERE";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -188,19 +189,28 @@ export default function TechTashWebsite() {
     e.preventDefault();
     setStatus("sending");
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: web3formsKey,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+      if (result?.success) {
         setStatus("success");
         setFormData({ name: "", email: "", message: "" });
+        console.log(result);
       } else {
         setStatus("error");
+        console.error("Web3Forms error:", result);
       }
     } catch (error) {
       console.error("Submission error:", error);
