@@ -234,6 +234,7 @@ export default function TechTashWebsite() {
       icon: Award,
       title: "Digital Branding",
       description: "Full-suite digital branding package tailored for your business.",
+      image: "/services/digital-branding.jpg",
       features: [
         "Domain purchase & setup",
         "Web hosting",
@@ -255,76 +256,91 @@ export default function TechTashWebsite() {
       icon: Bot,
       title: "AI Agents",
       description: "Custom AI agents to automate tasks, improve customer service, and drive business efficiency.",
+      image: "/services/ai-agent.jpg",
     },
     {
       icon: Workflow,
       title: "AI Automation",
       description: "Integration with n8n, Make, Zapier, and more to automate your business workflows.",
+      image: "/services/automation.png",
     },
     {
       icon: Code,
       title: "Web Development",
       description: "Custom web applications built with cutting-edge technologies and premium user experiences.",
+      image: "/services/web.jpeg",
     },
     {
       icon: Smartphone,
       title: "Mobile Apps",
       description: "Native and cross-platform mobile solutions that deliver exceptional performance and design.",
+      image: "/services/app.jpeg",
     },
     {
       icon: Cloud,
       title: "Cloud Infrastructure",
       description: "Scalable cloud solutions and DevOps practices for enterprise-grade applications.",
+      image: "/services/cloud.png",
     },
     {
       icon: Brain,
       title: "AI & Machine Learning",
       description: "Intelligent automation and machine learning integration to transform your business processes.",
+      image: "/services/images.jpeg",
     },
     {
       icon: ShoppingCart,
       title: "E-commerce Solutions",
       description: "Complete online stores with payment gateways, inventory management, and customer analytics.",
+      image: "/services/ecommerce-solutions.jpg",
     },
     {
       icon: Settings,
       title: "ERP Solutions",
       description: "End-to-end ERP implementation, customization, and integration for streamlined operations.",
+      image: "/services/erp.jpg",
     },
     {
       icon: Database,
       title: "Database Management",
       description: "Robust database design, optimization, and management for high-performance applications.",
+      image: "/services/database.jpg",
     },
     {
       icon: Shield,
       title: "Cybersecurity",
       description: "Comprehensive security audits, penetration testing, and secure application development.",
+      image: "/services/cyber.png",
     },
     {
       icon: Palette,
       title: "UI/UX Design",
       description: "User-centered design solutions that create engaging and intuitive digital experiences.",
+      image: "/services/uiux.jpg",
     },
     {
       icon: Search,
       title: "SEO & Digital Marketing",
       description: "Search engine optimization and digital marketing strategies to boost your online presence.",
+      image: "/services/seo.jpg",
     },
     {
       icon: Monitor,
       title: "System Integration",
       description: "Seamless integration of existing systems with modern technologies and APIs.",
+      image: "/services/systemintegration.png",
     },
     {
       icon: Settings,
       title: "Software Maintenance",
       description: "Ongoing support, updates, and maintenance to keep your applications running smoothly.",
+      image: "/services/software miantenance.jpeg",
     },
     {
       icon: Zap,
       title: "Performance Optimization",
       description: "Speed optimization and performance tuning for maximum efficiency and user satisfaction.",
+      image: "/services/perfomanceoptimization.png",
     },
   ]
 
@@ -562,6 +578,11 @@ export default function TechTashWebsite() {
                 <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 relative">
                   {service.isPremium && (
                     <Badge variant="destructive" className="absolute top-4 right-4">Premium</Badge>
+                  )}
+                  {service.image && (
+                    <div className="relative w-full h-32 mb-4 overflow-hidden rounded-md">
+                      <Image src={service.image} alt={`${service.title} image`} layout="fill" objectFit="cover" />
+                    </div>
                   )}
                   <div className="mb-4">
                     <service.icon className="h-12 w-12 text-primary group-hover:text-secondary transition-colors" />
