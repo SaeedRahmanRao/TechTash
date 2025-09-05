@@ -368,6 +368,18 @@ export default function TechTashWebsite() {
     },
   ]
 
+  const projectLogos: Record<string, string> = {
+    "QSB Enterprise": "/logo/qsb.jpg",
+    "Hafiz UAE": "/logo/hafiz-ae.jpg",
+    "ZJ Collections": "/logo/zj.jpg",
+    "Cryptcio": "/logo/crypto.png",
+    "Ruken Pakistan": "/logo/ruken.jpg",
+    "Barlite Pakistan": "/logo/barlite.png",
+    "Bison Towing": "/logo/bison-towing.jpg",
+    "Benvenuto Pizza": "/logo/benvenuto.jpg",
+    "Plan4Better": "/logo/plan4better.jpg",
+  }
+
   if (!isLoaded) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -577,10 +589,10 @@ export default function TechTashWebsite() {
               >
                 <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 relative">
                   {service.isPremium && (
-                    <Badge variant="destructive" className="absolute top-4 right-4">Premium</Badge>
+                    <Badge variant="destructive" className="absolute top-4 right-4 z-20">Premium</Badge>
                   )}
                   {service.image && (
-                    <div className="relative w-full h-32 mb-4 overflow-hidden rounded-md">
+                    <div className="relative w-full h-32 mb-4 overflow-hidden rounded-md z-0">
                       <Image src={service.image} alt={`${service.title} image`} layout="fill" objectFit="cover" />
                     </div>
                   )}
@@ -756,7 +768,7 @@ export default function TechTashWebsite() {
                 <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300">
                   <div className="p-6 flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <Image src="/logo/hafiz-ae.jpg" alt="Company logo" width={40} height={40} className="rounded-sm opacity-80" />
+                      <Image src={projectLogos[project.name] || "/techtash.png"} alt={`${project.name} logo`} width={40} height={40} className="rounded-sm opacity-80 object-contain" />
                       <h3 className="text-xl font-semibold text-primary dark:text-white transition-colors">{project.name}</h3>
                     </div>
                     <p className="text-muted-foreground text-sm mb-4">
