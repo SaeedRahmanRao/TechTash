@@ -680,7 +680,7 @@ export default function TechTashWebsite() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
-              Featured <span className="text-primary">Projects</span>
+              Featured <span className="text-primary dark:text-white">Projects</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
               Discover our latest work and see how we've helped businesses transform their digital presence.
@@ -755,7 +755,10 @@ export default function TechTashWebsite() {
               >
                 <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300">
                   <div className="p-6 flex-grow">
-                    <h3 className="text-xl font-semibold mb-2 text-primary group-hover:text-secondary transition-colors">{project.name}</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Image src="/logo/hafiz-ae.jpg" alt="Company logo" width={40} height={40} className="rounded-sm opacity-80" />
+                      <h3 className="text-xl font-semibold text-primary dark:text-white transition-colors">{project.name}</h3>
+                    </div>
                     <p className="text-muted-foreground text-sm mb-4">
                       {project.description}
                     </p>
@@ -792,7 +795,7 @@ export default function TechTashWebsite() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
-              Our Global <span className="text-primary">Offices</span>
+              Our Global <span className="text-primary dark:text-white">Offices</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
               Serving clients worldwide with local presence and global expertise.
@@ -829,7 +832,7 @@ export default function TechTashWebsite() {
                   <div className="relative flex items-center justify-center w-10 h-8 mb-6 mx-auto">
                     <Image src={office.flag} alt={`${office.country} flag`} layout="fill" objectFit="cover" className="mb-4 rounded-md" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-4 text-primary">{office.country}</h3>
+                  <h3 className="text-xl font-semibold mb-4 text-primary dark:text-white">{office.country}</h3>
                   <p className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed">
                     {office.address}
                   </p>
@@ -851,7 +854,7 @@ export default function TechTashWebsite() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
-              Why Choose <span className="text-primary">TechTash</span>
+              Why Choose <span className="text-primary dark:text-white">TechTash</span>
             </h2>
           </motion.div>
 
@@ -892,7 +895,7 @@ export default function TechTashWebsite() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
-              Client <span className="text-primary">Testimonials</span>
+              Client <span className="text-primary dark:text-white">Testimonials</span>
             </h2>
           </motion.div>
 
@@ -947,7 +950,7 @@ export default function TechTashWebsite() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
-              Let's Create Something <span className="text-primary">Amazing</span>
+              Let's Create Something <span className="text-primary dark:text-white">Amazing</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
               Ready to transform your vision into digital reality? Get in touch with our team today.
