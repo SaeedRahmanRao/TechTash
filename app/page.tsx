@@ -38,6 +38,7 @@ import {
   X,
 } from "lucide-react"
 import { useState, useEffect } from "react"
+import { FaTiktok } from "react-icons/fa6"
 
 // Animated counter component
 function AnimatedCounter({ end, duration = 2000 }: { end: number; duration?: number }) {
@@ -840,14 +841,24 @@ export default function TechTashWebsite() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
               >
-                <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 overflow-hidden">
-                  <div className="relative flex items-center justify-center w-10 h-8 mb-6 mx-auto">
-                    <Image src={office.flag} alt={`${office.country} flag`} layout="fill" objectFit="cover" className="mb-4 rounded-md" />
+                <Card className="bg-card border border-black-700 p-6 h-full group-hover:glow-purple transition-all duration-300 overflow-hidden rounded-2xl">
+                  <div className="pointer-events-none absolute -top-12 -right-12 w-48 h-48 bg-primary/10 blur-3xl rounded-full" />
+
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="relative w-12 h-12 rounded-full ring-1 ring-white/10 overflow-hidden shadow-md mb-2">
+                      <Image src={office.flag} alt={`${office.country} flag`} layout="fill" objectFit="cover" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-primary dark:text-white">{office.country}</h3>
                   </div>
-                  <h3 className="text-xl font-semibold mb-4 text-primary dark:text-white">{office.country}</h3>
-                  <p className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed">
-                    {office.address}
-                  </p>
+
+                  <div className="rounded-xl border border-white/10 bg-background/40 p-2">
+                    <div className="flex flex-col items-center text-center gap-3">
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <MapPin className="h-4 w-4 text-primary" />
+                      </div>
+                      <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{office.address}</p>
+                    </div>
+                  </div>
                 </Card>
               </motion.div>
             ))}
@@ -1176,13 +1187,7 @@ export default function TechTashWebsite() {
                   <Instagram className="h-6 w-6" />
                 </motion.a>
                 <motion.a href="https://www.tiktok.com/@techtash.ca" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
-                  <Image
-                    src="/tiktok.png"
-                    alt="TikTok"
-                    width={24}
-                    height={24}
-                    className="object-contain"
-                  />
+                  <FaTiktok className="h-6 w-6" />
                 </motion.a>
                 <motion.a href="https://www.linkedin.com/company/techtash/" target="_blank" whileHover={{ scale: 1.2 }} className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:glow-purple transition-all duration-300">
                   <Linkedin className="h-6 w-6" />
