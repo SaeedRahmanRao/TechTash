@@ -549,8 +549,8 @@ export default function TechTashWebsite() {
               className="relative"
             >
               <div className="glass-card p-8 rounded-2xl animate-float">
-                <div className="w-full h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center">
-                  <Code className="h-24 w-24 text-primary" />
+                <div className="w-full h-70 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center">
+                  <Image src="/about.jpg" alt="About TechTash" width={1024} height={700} className="w-full h-full object-cover rounded-xl" />
                 </div>
               </div>
             </motion.div>
